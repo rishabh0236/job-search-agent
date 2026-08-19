@@ -1,0 +1,84 @@
+[project]
+name = "career-agent"
+version = "0.1.0"
+description = "Local-first, evidence-grounded AI career agent"
+requires-python = ">=3.11"
+
+# Kept deliberately small. Each addition needs a reason (CLAUDE.md rule).
+dependencies = [
+    "fastapi>=0.115",         # API layer
+    "uvicorn[standard]>=0.32", # ASGI server for `make dev`
+    "pydantic>=2.9",          # single source of truth for domain + LLM schemas
+    "pydantic-settings>=2.6",  # .env-backed config, no hand-rolled getenv
+    "sqlalchemy>=2.0",        # ORM; PostgreSQL-compatible model definitions
+    "alembic>=1.14",          # migrations from day one, so SQLite->PG is mechanical
+    "anthropic>=0.40",        # Claude provider (activates when a key is present)
+    "pymupdf>=1.24",          # PDF text extraction with per-line positions for evidence locators
+    "python-multipart>=0.0.9", # resume file upload (FastAPI multipart dependency)
+    "playwright>=1.49",     # browser automation for supported application flows (M5)
+]
+
+# This is an application, not a distributable library: no wheel is built.
+# Packages are imported relative to the repo root (see tool.pytest pythonpath).
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",   # required by fastapi.testclient
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+# ---------------------------------------------------------------- ruff
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["."]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # import sorting
+    "B",        # bugbear
+    "UP",       # pyupgrade
+    "ASYNC",    # async correctness
+    "S",        # bandit (security) — this app handles sensitive candidate data
+    "T20",      # no stray print()
+    "RUF",
+]
+ignore = [
+    "E501",  # line length is handled by the formatter
+    "B008",  # FastAPI Depends() in defaults is the documented pattern
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Asserts are the point of a test, and the redaction tests must contain
+# realistic-looking fake credentials in order to prove they get redacted.
+"tests/**" = ["S101", "S105", "S106", "S107"]
+"scripts/**" = ["T20"]     # CLI scripts print by design
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "."
+namespace_packages = true
+explicit_package_bases = true
+strict = true
+warn_unreachable = true
+# SQLAlchemy 2.0 typed ORM needs its plugin for Mapped[] inference
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["alembic.*"]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["error::DeprecationWarning"]

@@ -1,0 +1,91 @@
+%-------------------------------------------
+% Fixture resume. Deliberately mirrors the structure of a real single-page
+% engineering resume (Jake Gutierrez style macros) so extraction is exercised
+% against the shapes it will actually meet: custom heading macros, multi-line
+% arguments, a comment, an escaped percent, and a metric in one bullet only.
+%-------------------------------------------
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\titleformat{\section}{\vspace{-4pt}\scshape\raggedright\large}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\resumeSubheading}[4]{\item\textbf{#1} \hfill #2 \\ \textit{#3} \hfill \textit{#4}}
+\newcommand{\resumeProjectHeading}[2]{\item\small{\textbf{#1} \hfill #2}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Priya Raghavan} \\ \vspace{1pt}
+    \small +91 98450 12345 $|$ \href{mailto:priya.raghavan@example.com}{priya.raghavan@example.com} $|$
+    \href{https://linkedin.com/in/priyaraghavan}{linkedin.com/in/priyaraghavan} $|$
+    \href{https://github.com/praghavan}{github.com/praghavan}
+\end{center}
+
+%----------SUMMARY----------
+\section{Summary}
+Backend and machine learning engineer working on retail computer vision systems and the
+data platforms behind them.
+
+%----------EXPERIENCE----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {Senior Machine Learning Engineer}{March 2022 -- Present}
+    {Infilect Technologies}{Bengaluru, India}
+    \resumeItemListStart
+      \resumeItem{Led the redesign of the shelf-recognition inference pipeline, cutting p99 latency by 35\%.}
+      \resumeItem{Built the evaluation harness used to compare detection models across retail categories.}
+      \resumeItem{Mentored three engineers joining the vision team.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Backend Engineer}{July 2019 -- February 2022}
+    {Zeta Systems}{Bengaluru, India}
+    \resumeItemListStart
+      \resumeItem{Designed the billing reconciliation service in Python and PostgreSQL.}
+      \resumeItem{Migrated batch reporting jobs onto Apache Airflow.}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%----------PROJECTS----------
+\section{Projects}
+\resumeSubHeadingListStart
+  \resumeProjectHeading{Planogram Diff Tool}{2023}
+    \resumeItemListStart
+      \resumeItem{Open-source tool that compares planogram compliance between store visits.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%----------SKILLS----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{
+    \textbf{Languages}{: Python, Go, SQL} \\
+    \textbf{Frameworks}{: FastAPI, PyTorch, Django} \\
+    \textbf{Developer Tools}{: Docker, Kubernetes, Terraform, Apache Airflow}
+  }}
+\end{itemize}
+
+%----------EDUCATION----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {National Institute of Technology Karnataka}{2015 -- 2019}
+    {B.Tech in Computer Science and Engineering}{Surathkal, India}
+\resumeSubHeadingListEnd
+
+\end{document}

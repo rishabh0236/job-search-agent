@@ -1,0 +1,48 @@
+# --- Secrets (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- Candidate data (sensitive: resumes, applications, browser profiles) ---
+# Excluded wholesale, with no negations: git does not descend into an ignored
+# directory, so a "!data/.gitkeep" exception would be dead config that implies
+# more protection review than it delivers. The tree is recreated on startup by
+# Settings.ensure_dirs().
+data/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Node / frontend ---
+node_modules/
+apps/web/dist/
+apps/web/.vite/
+
+# --- Local toolchain (vendored binaries, not source) ---
+.tooling/
+
+# --- LaTeX build artifacts ---
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+*.swp
